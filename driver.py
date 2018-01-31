@@ -1,6 +1,6 @@
 # coding:utf-8
 import time
-import RPi.GPIO as GPIO
+import GPIO as GPIO
 
 # 上电机脉冲针脚
 UP_PULSE_PIN = 40
@@ -164,7 +164,7 @@ def init():
         # debug
         # movePWM(-70)
 
-        time.sleep(5)
+        time.sleep(3)
         print('启动成功')
     except SyntaxError:
         print('初始化失败 重新执行')
