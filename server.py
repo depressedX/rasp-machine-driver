@@ -1,8 +1,10 @@
+# coding:utf-8
 from flask import Flask
+import driver
 
 app = Flask(__name__)
 
-types = [(0, 47), (0, 50), (55, 55), (-55, 55), (75, 47), (-75, 47), (20, 51), (-20, 51), (-30, 47), (-30, 47)]
+positionTypes = [(0, 27), (0, 30), (55, 35), (-55, 35), (75, 27), (-75, 27), (20, 31), (-20, 31), (-30, 27), (-30, 27)]
 
 
 @app.route('/')
@@ -12,24 +14,50 @@ def root():
 
 @app.route('/start')
 def start():
+    driver.init()
     return 'OK'
 
 
 @app.route('/shutdown')
 def shutdown():
+    driver.destroy()
     return 'OK'
 
 
 # action: load unload pause
 @app.route('/load/<action>')
 def load(action):
-    return 'OK %' % action
+    if action == 'load':
+        driver.loadBalls()
+        driver.startLoadMotor()
+    elif action == 'unload':
+        driver.unloadBalls()
+        driver.startLoadMotor()
+    elif action == 'pause':
+        driver.stopLoadMotor()
+    else:
+        return 'bad action : {}'.format(action)
+    return 'OK {}'.format(action)
 
 
-@app.route('/position/<int:action>')
-def action(action):
-    return 'action %d' % action
+@app.route('/position/<int:position>')
+def position(position):
+    if not(0 <= position <= 9):
+        return 'out of bounds {}'.format(position)
+    driver.changeUpDutyCycle(positionTypes[position][1])
+    driver.changeDownDutyCycle(positionTypes[position][1])
+    driver.movePWM(positionTypes[position][0])
+    return 'move to position %d' % position
+
+
+@app.route('/move/<int:angle>')
+def move(angle):
+    driver.movePWM(angle)
+    return 'move to %d' % angle 
 
 
 if __name__ == '__main__':
-    app.run()
+    try:
+        app.run(host='0.0.0.0')
+    finally:
+        driver.destroy()

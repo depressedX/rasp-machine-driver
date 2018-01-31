@@ -1,6 +1,6 @@
 # coding:utf-8
 import time
-import GPIO as GPIO
+import RPi.GPIO as GPIO
 
 # 上电机脉冲针脚
 UP_PULSE_PIN = 40
