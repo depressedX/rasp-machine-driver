@@ -1,6 +1,6 @@
 # coding:utf-8
 import time
-import RPi.GPIO as GPIO
+import GPIO as GPIO
 
 # 上电机脉冲针脚
 UP_PULSE_PIN = 40
@@ -49,7 +49,6 @@ downMotor = None
 loadMotor = None
 
 
-
 # 发出一个脉冲信号
 def pulse(channel, long):
     GPIO.output(channel, GPIO.HIGH)
@@ -60,10 +59,10 @@ def pulse(channel, long):
 # PWM电机旋转角度[-max, max]
 def movePWM(angle):
     global curAngle
-    
+
     if angle > MAX_ROTATION_THETA or angle < -MAX_ROTATION_THETA:
-    	print('out of bounds!')
-    	return
+        print('out of bounds!')
+        return
 
     delta = angle - curAngle
     if delta > 0:
@@ -79,30 +78,40 @@ def movePWM(angle):
         pulse(PWM_PULSE_PIN, pwmPulseFactor)
         time.sleep(pwmSpeedFactor)
     curAngle = steps * SINGLE_STEP_ANGLE
-    
-    print('moveto ',angle,' now ',curAngle)
+
+    print('moveto ', angle, ' now ', curAngle)
+
+
+# 修改上旋电机占空比
+def changeUpDutyCycle(dc):
+    upMotor.ChangeDutyCycle(dc)
+
+
+# 修改下旋电机占空比
+def changeDownDutyCycle(dc):
+    downMotor.ChangeDutyCycle(dc)
 
 
 # 修改上旋电机速度 [0,1]
 def changeUpSpeed(rate):
-    if not(rate >= 0 and rate <= 1):
-    	print('参数非法 ',str(rate))
-    	return
-    upMotor.ChangeDutyCycle((maxUpDutyCycle-minUpDutyCycle)*rate)
+    if not (0 <= rate <= 1):
+        print('参数非法 ', str(rate))
+        return
+    upMotor.ChangeDutyCycle((maxUpDutyCycle - minUpDutyCycle) * rate)
 
 
 # 修改下旋电机速度 [0,1]
 def changeDownSpeed(rate):
-    if not(rate >= 0 and rate <= 1):
-    	print('参数非法 ',rate)
-    	return
-    downMotor.ChangeDutyCycle((maxDownDutyCycle-minDownDutyCycle)*rate)
+    if not (0 <= rate <= 1):
+        print('参数非法 ', rate)
+        return
+    downMotor.ChangeDutyCycle((maxDownDutyCycle - minDownDutyCycle) * rate)
 
 
 # 开始装载\卸载
 def startLoadMotor():
     loadMotor.start(minLoadDutyCycle)
-    
+
 
 # 暂停装载\卸载
 def stopLoadMotor():
@@ -111,22 +120,24 @@ def stopLoadMotor():
 
 # 装载球
 def loadBalls():
+    global loadMotorDirection
     loadMotorDirection = False
-    GPIO.output(LOAD_DIRECTION_PIN,loadMotorDirection)
+    GPIO.output(LOAD_DIRECTION_PIN, loadMotorDirection)
 
 
 # 卸载球
 def unloadBalls():
+    global loadMotorDirection
     loadMotorDirection = True
-    GPIO.output(LOAD_DIRECTION_PIN,loadMotorDirection)
+    GPIO.output(LOAD_DIRECTION_PIN, loadMotorDirection)
 
 
 # 修改装\卸载球的速度
 def changeLoadMotorSpeed(rate):
-    if not(rate >= 0 and rate <= 1):
-    	print('参数非法 ',rate)
-    	return
-    loadMotor.ChangeDutyCycle((maxLoadDutyCycle-minLoadDutyCycle)*rate)
+    if not (0 <= rate <= 1):
+        print('参数非法 ', rate)
+        return
+    loadMotor.ChangeDutyCycle((maxLoadDutyCycle - minLoadDutyCycle) * rate)
 
 
 def init():
@@ -143,21 +154,21 @@ def init():
         upMotor = GPIO.PWM(UP_PULSE_PIN, upFrequency)
         downMotor = GPIO.PWM(DOWN_PULSE_PIN, downFrequency)
         loadMotor = GPIO.PWM(LOAD_PULSE_PIN, loadFrequency)
-        
+
         # 启动电机
         upMotor.start(minUpDutyCycle)
         downMotor.start(minDownDutyCycle)
-        
+
         # debug
-        #movePWM(-70)
-        
+        # movePWM(-70)
+
         time.sleep(5)
         print('启动成功')
     except SyntaxError:
         print('初始化失败 重新执行')
         print(Exception)
-        
-        
+
+
 def destroy():
     GPIO.cleanup()
 
