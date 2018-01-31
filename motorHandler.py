@@ -1,6 +1,6 @@
 # coding:utf-8
 import time
-import GPIO as GPIO
+import RPi.GPIO as GPIO
 
 # 上电机脉冲针脚
 UP_PULSE_PIN = 40
@@ -61,10 +61,12 @@ def movePWM(angle):
     global curAngle
 
     if angle > MAX_ROTATION_THETA or angle < -MAX_ROTATION_THETA:
-        print('out of bounds!')
+        print('out of bounds!', angle)
         return
 
     delta = angle - curAngle
+    reversed = False
+    
     if delta > 0:
         # 顺时针旋转
         GPIO.output(PWM_DIRECTION_PIN, GPIO.HIGH)
@@ -72,12 +74,12 @@ def movePWM(angle):
         # 逆时针旋转
         GPIO.output(PWM_DIRECTION_PIN, GPIO.LOW)
         delta = -delta
-    time.sleep(.05)
+        reversed = True
     steps = int(delta / SINGLE_STEP_ANGLE)
     for i in range(steps):
         pulse(PWM_PULSE_PIN, pwmPulseFactor)
         time.sleep(pwmSpeedFactor)
-    curAngle = steps * SINGLE_STEP_ANGLE
+    curAngle = curAngle + (-1 if reversed else 1) * steps * SINGLE_STEP_ANGLE
 
     print('moveto ', angle, ' now ', curAngle)
 
