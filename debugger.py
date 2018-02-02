@@ -38,12 +38,24 @@ class Application(Frame):
         self.downInput.pack()
         self.downButton = Button(self, text='下旋电机占空比', command=self.changeDownDutyCycle)
         self.downButton.pack()
+        self.label5 = Label(self, text='----------------装载占空比----------------')
+        self.label5.pack()
+        self.loadInput = Entry(self)
+        self.loadInput.pack()
+        self.loadButton = Button(self, text='装载电机占空比', command=self.changeLoadDutyCycle)
+        self.loadButton.pack()
         self.label5 = Label(self, text='----------------调整角度----------------')
         self.label5.pack()
         self.PWMInput = Entry(self)
         self.PWMInput.pack()
         self.PWMButton = Button(self, text='调整角度', command=self.movePWM)
         self.PWMButton.pack()
+        self.label6 = Label(self, text='----------------PWM电机速度----------------')
+        self.label6.pack()
+        self.PWMSpeedInput = Entry(self)
+        self.PWMSpeedInput.pack()
+        self.PWMSpeedButton = Button(self, text='调整速度', command=self.changePWMSpeed)
+        self.PWMSpeedButton.pack()
         self.label6 = Label(self, text='----------------强制退出----------------')
         self.label6.pack()
         self.exitButton = Button(self, text='退出', command=self.quit)
@@ -58,6 +70,16 @@ class Application(Frame):
     def changeDownDutyCycle(self):
         dc = int(self.downInput.get())
         driver.changeDownDutyCycle(dc)
+        
+    
+    def changeLoadDutyCycle(self):
+        dc = int(self.loadInput.get())
+        driver.changeLoadDutyCycle(dc)
+    
+    
+    def changePWMSpeed(self):
+        factor = float(self.PWMSpeedInput.get())
+        driver.changePWMSpeed(factor)
         
         
     def movePWM(self):

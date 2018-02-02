@@ -24,9 +24,9 @@ SINGLE_STEP_ANGLE = 1.8 / 4
 # 步进电机当前角度
 curAngle = 0
 # 步进电机移动速度因子
-pwmSpeedFactor = .01
+pwmSpeedFactor = .0008
 # 脉冲持续时间
-pwmPulseFactor = .01
+pwmPulseFactor = .0008
 
 # 上下旋装载占空比区间
 minUpDutyCycle = 20
@@ -76,13 +76,23 @@ def movePWM(angle):
         delta = -delta
         reversed = True
     steps = int(delta / SINGLE_STEP_ANGLE)
+    print('move steps {}'.format(steps))
+    time.sleep(0.08)
     for i in range(steps):
         pulse(PWM_PULSE_PIN, pwmPulseFactor)
         time.sleep(pwmSpeedFactor)
     curAngle = curAngle + (-1 if reversed else 1) * steps * SINGLE_STEP_ANGLE
 
     print('moveto ', angle, ' now ', curAngle)
-
+    
+    
+# 修改PWM电机速度
+def changePWMSpeed(factor):
+    global pwmPulseFactor, pwmSpeedFactor
+    print('change to {}'.format(factor))
+    pwmPulseFactor = factor
+    pwmSpeedFactor = factor
+    
 
 # 修改上旋电机占空比
 def changeUpDutyCycle(dc):
@@ -140,6 +150,12 @@ def changeLoadMotorSpeed(rate):
         print('参数非法 ', rate)
         return
     loadMotor.ChangeDutyCycle((maxLoadDutyCycle - minLoadDutyCycle) * rate)
+
+
+
+# 修改装载电机占空比
+def changeLoadDutyCycle(dc):
+    loadMotor.ChangeDutyCycle(dc)
 
 
 def init():
