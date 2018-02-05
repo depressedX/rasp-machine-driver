@@ -66,7 +66,7 @@ def movePWM(angle):
 
     delta = angle - curAngle
     reversed = False
-    
+
     if delta > 0:
         # 顺时针旋转
         GPIO.output(PWM_DIRECTION_PIN, GPIO.HIGH)
@@ -84,15 +84,15 @@ def movePWM(angle):
     curAngle = curAngle + (-1 if reversed else 1) * steps * SINGLE_STEP_ANGLE
 
     print('moveto ', angle, ' now ', curAngle)
-    
-    
+
+
 # 修改PWM电机速度
 def changePWMSpeed(factor):
     global pwmPulseFactor, pwmSpeedFactor
     print('change to {}'.format(factor))
     pwmPulseFactor = factor
     pwmSpeedFactor = factor
-    
+
 
 # 修改上旋电机占空比
 def changeUpDutyCycle(dc):
@@ -150,7 +150,6 @@ def changeLoadMotorSpeed(rate):
         print('参数非法 ', rate)
         return
     loadMotor.ChangeDutyCycle((maxLoadDutyCycle - minLoadDutyCycle) * rate)
-
 
 
 # 修改装载电机占空比

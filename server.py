@@ -41,7 +41,7 @@ def load(action):
 
 
 @app.route('/position/<int:position>')
-def position(position):
+def reachPosition(position):
     if not(0 <= position <= 9):
         return 'out of bounds {}'.format(position)
     driver.changeUpDutyCycle(positionTypes[position][1])
