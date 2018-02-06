@@ -1,6 +1,6 @@
 # coding:utf-8
 # 树莓派与jetson TX2的并口通信驱动程序 树莓派端
-import GPIO
+import RPi.GPIO
 import driver
 
 # 准备信号管脚 高电平就绪
@@ -18,13 +18,12 @@ def init():
     GPIO.setup(readySignalPin, GPIO.IN)
     for pin in dataPins:
         GPIO.setup(pin, GPIO.IN)
-    driver.init()
 
 
 def booleanArray2Str(arr):
     res = ''
     for i in arr:
-        res = res + ('1' if arr[i] else '0')
+        res = res + ('1' if i else '0')
     return res
 
 
@@ -46,7 +45,7 @@ def parseDataAndExecute(data):
         driver.movePWM(positionTypes[position][0])
         print('move to position %d' % position)
     elif binary2Dec(booleanArray2Str(data[0:3])) == 4:
-        loadType = binary2Dec(data[3:])
+        loadType = binary2Dec(booleanArray2Str(data[3:]))
         if loadType == 0:
             driver.loadBalls()
             driver.startLoadMotor()
@@ -89,4 +88,10 @@ def listen():
 
 
 if __name__ == '__main__':
-    listen()
+    try:
+        driver.init()
+        parseDataAndExecute((True,False,False,False,True))
+        raw_input()
+        parseDataAndExecute((True,False,False,True,False))
+    finally:
+        driver.destroy()
