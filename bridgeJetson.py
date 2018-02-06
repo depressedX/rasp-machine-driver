@@ -1,6 +1,6 @@
 # coding:utf-8
 # 树莓派与jetson TX2的串口通信驱动程序 TX2端
-import GPIO
+import GPIOTX2Adapter as GPIO
 import time
 
 # 0xxxx postition:x
