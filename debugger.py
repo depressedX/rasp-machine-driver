@@ -1,4 +1,5 @@
 # coding:utf-8
+# GUI 电机调试程序
 from Tkinter import *
 import driver
 
