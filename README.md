@@ -63,7 +63,7 @@
     ```
 
 ## TX2控制乒乓球机
-package : *serialTransmitter.py*
+package : [serialTransmitter.py](https://github.com/depressedX/rasp-machine-driver/blob/master/serialTransmitter.py)
 ### 开始
 **一段简短的example**
 ```python
