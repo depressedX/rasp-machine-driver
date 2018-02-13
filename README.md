@@ -7,13 +7,7 @@
 - 单向传输
 - 格式为JSON ASCII编码 以ASCII 0作为结束符
 ### template
-```json
-{
-"type":"string",
-"data":0
-}
-```
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+|参数|是否必选|类型|说明|
+|---|---|---|---|
+|type|是|string|发送信号类型|
+|data|否|任意|payload|
