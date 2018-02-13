@@ -103,6 +103,6 @@ finally:
 - serial.move(pos)  
 改变转速和角度实现定点发球
 
-|parameter|type|description|
-|:------:|:---:|:-------:|
-|pos|int|落点位置 0-9|
+    |parameter|type|description|
+    |:------:|:---:|:-------:|
+    |pos|int|落点位置 0-9|
