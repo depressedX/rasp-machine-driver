@@ -51,4 +51,3 @@ def listen():
 
     finally:
         ser.close()
-
