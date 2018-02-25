@@ -1,5 +1,16 @@
 # rasp-machine-driver
-英特尔杯-树莓派电机驱动程序
+英特尔杯-树莓派电机控制程序
+
+## 目录
+|文件名|描述|
+|-----|-----|
+|debugger.py|图形化电机调试程序|
+|driver.py|电机底层驱动|
+|GPIO.py|为了代码提示写的伪RPi.GPIO|
+|serialDriver.py|串口通信接收端(树莓派)|
+|serialTransmitter.py|串口通信发送端(TX2)|
+|server.py|服务器控制电机|
+|speech-listener.py|语音控制电机|
 
 ## 串口协议
 ### description
