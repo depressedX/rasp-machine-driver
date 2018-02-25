@@ -10,7 +10,7 @@
 |serialDriver.py|串口通信接收端(树莓派)|
 |serialTransmitter.py|串口通信发送端(TX2)|
 |server.py|服务器控制电机|
-|speech-listener.py|语音控制电机|
+|speechListener.py|语音控制电机|
 
 ## 串口协议
 ### description
