@@ -13,6 +13,10 @@
 |speechListener.py|语音控制电机|
 
 ## 串口协议
+### 接线
+- tx2=>pi
+- j17GND(外1)=>GND#6
+- j17TXD(外5)=>RXD#10
 ### description
 - 树莓派作为接收端\TX2作为发送端
 - 单向传输
