@@ -61,28 +61,23 @@ class Application(Frame):
         self.label6.pack()
         self.exitButton = Button(self, text='退出', command=self.quit)
         self.exitButton.pack()
-        
-        
+
     def changeUpDutyCycle(self):
         dc = int(self.upInput.get())
         driver.changeUpDutyCycle(dc)
-        
-    
+
     def changeDownDutyCycle(self):
         dc = int(self.downInput.get())
         driver.changeDownDutyCycle(dc)
-        
-    
+
     def changeLoadDutyCycle(self):
         dc = int(self.loadInput.get())
         driver.changeLoadDutyCycle(dc)
-    
-    
+
     def changePWMSpeed(self):
         factor = float(self.PWMSpeedInput.get())
         driver.changePWMSpeed(factor)
-        
-        
+
     def movePWM(self):
         dc = int(self.PWMInput.get())
         driver.movePWM(dc)

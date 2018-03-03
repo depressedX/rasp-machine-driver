@@ -1,3 +1,4 @@
+# coding:utf-8
 # 树莓派平台GPIO
 def setmode(mode_type):
     pass
