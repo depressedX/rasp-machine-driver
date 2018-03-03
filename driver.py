@@ -187,6 +187,8 @@ def init():
 
 
 def destroy():
+    # 归零
+    movePWM(0)
     GPIO.cleanup()
 
 
